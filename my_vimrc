@@ -1,0 +1,157 @@
+"---For plugins
+set nocompatible              " required
+filetype off                  " required
+
+" set the runtime path to include Vundle and initialize
+"set rtp+=~/.vim/bundle/Vundle.vim
+set rtp+=C:\Users\asankaran\vimfiles\bundle\Vundle.vim
+call vundle#begin('$HOME/vimfiles/bundle/')
+
+" alternatively, pass a path where Vundle should install plugins
+"call vundle#begin('~/some/path/here')
+
+" let Vundle manage Vundle, required
+Plugin 'gmarik/Vundle.vim'
+Bundle 'Valloric/YouCompleteMe'
+Plugin 'tmhedberg/SimpylFold'
+Plugin 'vim-scripts/indentpython.vim'
+Plugin 'scrooloose/syntastic'
+Plugin 'nvie/vim-flake8'
+"Color schemes
+Plugin 'jnurmine/Zenburn'
+Plugin 'altercation/vim-colors-solarized'
+"File tree
+Plugin 'scrooloose/nerdtree'
+Plugin 'jistr/vim-nerdtree-tabs'
+"press Ctrl-P to enable the search 
+Plugin 'kien/ctrlp.vim'
+" perform basic git commands without leaving the comfort of VIM
+Plugin 'tpope/vim-fugitive'
+
+"status bar that displays things like the current virtualenv, git branch, files being edited, and much more
+Plugin 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
+"
+
+" Add all your plugins here (note older versions of Vundle used Bundle instead of Plugin)
+
+
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+filetype plugin indent on    " required
+
+" Enable folding
+set foldmethod=indent
+set foldlevel=99
+" Enable folding with the spacebar
+nnoremap <space> za
+
+
+"avoid extraneous whitespace.  ==> not working
+" Define BadWhitespace before using in a match
+highlight BadWhitespace ctermbg=red guibg=darkred
+au BufRead,BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/
+
+set encoding=utf-8
+
+let g:ycm_autoclose_preview_window_after_completion=1
+map <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
+
+let g:ycm_global_ycm_extra_conf = "C:\Users\asankaran\vimfiles\.ycm_extra_conf.py"
+filetype on
+
+
+"logic to define which scheme to use based upon the VIM mode
+if has('gui_running')
+  set background=dark
+  colorscheme solarized
+else
+  colorscheme zenburn
+endif
+"switching between dark and light theme by pressing F5
+call togglebg#map("<F5>")
+"hide .pyc files in nerdTree
+let NERDTreeIgnore=['\.pyc$', '\~$'] "ignore files in NERDTree
+
+"----Mine
+autocmd! bufwritepost _vimrc source %
+set showcmd                "Show combination commands 
+set clipboard=unnamed       "System clipboard as default clipboard
+set nobackup                " Dont create backup
+set nowritebackup
+set tabstop=4               " size of a hard tabstop
+set shiftwidth=4            " size of an "indent"
+" a combination of spaces and tabs are used to simulate tab stops at a width
+" other than the (hard)tabstop
+set softtabstop=4
+" make "tab" insert indents instead of tabs at the beginning of a line
+set smarttab
+" always uses spaces instead of tab characters
+set expandtab
+" backspace to work properly to delete aoto indended lines
+set backspace=2
+let mapleader = ","
+" Map tabnext and previos to leader n and N
+map <Leader>n <esc>:tabnext<cr>
+map <Leader>N <esc>:tabprevious<cr>
+" navigate on v and h split using CTRL keys
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
+" Sort visual block using Leader s
+vnoremap <Leader>s :sort<cr>
+" indent visual block using > / < 
+vnoremap < <gv 
+vnoremap > >gv
+
+"avoid extraneous whitespace.  ==> not working   (COPYYYY)
+" Define BadWhitespace before using in a match
+"autocmd ColorScheme * highlight BadWhitespace ctermbg=red guibg=darkred
+"au BufRead,BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/
+
+filetype off                " identify filetupe
+filetype plugin indent on   " Indent depending on plugin
+syntax on                   " do syntax highlighting
+set incsearch               "Hilight while searching
+set hlsearch                "Hilight all matches
+set number                  " show line numbers
+set relativenumber          " show relative line numbers
+set ruler                   " show curser position
+set cursorline              " highlight curser line
+set tw=79                   " width of document
+set nowrap                  " don't automatically wrap on load
+set fo-=t                   " don't auto wrap text when typing
+set colorcolumn=80          " mark 80th col " and highlight
+highlight ColorColumn ctermbg=233 
+" filetype specific tabstops
+au BufNewFile,BufRead *.js, *.html, *.css
+    \ set tabstop=2
+    \ set softtabstop=2
+    \ set shiftwidth=2
+
+" set vim to chdir for each file
+if exists('+autochdir')
+    set autochdir
+else
+    autocmd BufEnter * silent! lcd %:p:h:gs/ /\\ /
+endif
+"CTAGS
+"------
+"to search the tag file (vimrc) 
+set tags=./tags,tags;   
+
+"to open in different tab using C-\
+map <C-\> :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
+"to split open using M-]
+map <A-]> :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
+"show all the possible definitions 
+":tj 
+
+
+
+
+" To consider --=====--
+" Plugins 
+" 1. python-mode
+" 2. python_editing
+
